@@ -11,9 +11,11 @@
  * This requires specifying the parameter set and namespace prefix
  * used for the build.
  */
-#include "mlkem_native/mlkem_native.h"
+//#include "mlkem_native/mlkem_native.h"
 
-#include "test_only_rng/notrandombytes.h"
+#include <mlkem_native.h>
+
+#include <notrandombytes.h>
 
 #define CHECK(x)                                              \
   do                                                          \

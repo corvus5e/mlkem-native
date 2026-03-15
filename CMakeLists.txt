@@ -26,10 +26,19 @@ file(GLOB RNG_SOURCES "test/notrandombytes/*.c")
 # Shared Library
 add_library(mlkem_native_lib SHARED ${MLK_SOURCES} ${RNG_SOURCES})
 target_include_directories(mlkem_native_lib PUBLIC mlkem)
+target_include_directories(mlkem_native_lib PUBLIC test/notrandombytes)
 target_compile_definitions(mlkem_native_lib PUBLIC
     MLK_CONFIG_NAMESPACE_PREFIX=mlkem
     MLK_CONFIG_PARAMETER_SET=${MLK_PARAMETER_SET}
 )
+
+if(WIN32 OR CYGWIN)
+    target_compile_definitions(mlkem_native_lib PRIVATE "MLK_CONFIG_EXTERNAL_API_QUALIFIER=__declspec(dllexport)")
+    target_compile_definitions(mlkem_native_lib INTERFACE "MLK_CONFIG_EXTERNAL_API_QUALIFIER=__declspec(dllimport)")
+else()
+    target_compile_definitions(mlkem_native_lib PRIVATE "MLK_CONFIG_EXTERNAL_API_QUALIFIER=__attribute__((visibility(\"default\")))")
+    set_target_properties(mlkem_native_lib PROPERTIES C_VISIBILITY_PRESET hidden)
+endif()
 
 # Executable (basic example)
 add_executable(basic_example examples/basic/main.c)

@@ -28,7 +28,11 @@
  *
  */
 
-void randombytes_reset(void);
-int randombytes(uint8_t *buf, size_t n);
+#ifndef MLK_CONFIG_EXTERNAL_API_QUALIFIER
+#define MLK_CONFIG_EXTERNAL_API_QUALIFIER
+#endif
+
+MLK_CONFIG_EXTERNAL_API_QUALIFIER void randombytes_reset(void);
+MLK_CONFIG_EXTERNAL_API_QUALIFIER int randombytes(uint8_t *buf, size_t n);
 
 #endif /* !NOTRANDOMBYTES_H */
